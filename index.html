@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nature Dash</title>
+
+<link rel="icon" type="image/png" href="logo.png">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: url('cursor.png'), auto;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: grid;
+    place-items: center;
+    color: white;
+    position: relative;
+}
+
+/* Background Video */
+.video-background {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    filter: brightness(1.1);
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.10);
+    z-index: -1;
+}
+
+/* Glass Card */
+.profile-card {
+    position: relative;
+    text-align: center;
+    background: rgba(0,255,102,0.03);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    padding: 45px 35px;
+    border-radius: 24px;
+    border: 1px solid rgba(0,255,102,0.15);
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.4),
+        0 0 20px rgba(0,255,102,0.05);
+    max-width: 460px;
+    width: 90%;
+    z-index: 10;
+}
+
+/* Avatar */
+.avatar-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 22px;
+}
+
+.profile-pic {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #00ff66;
+    position: relative;
+    z-index: 2;
+    transition: .4s;
+}
+
+.profile-pic:hover {
+    transform: scale(1.12);
+    box-shadow:
+        0 0 25px #00ff66,
+        0 0 50px rgba(0,255,102,.6);
+}
+
+.profile-effect {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* Title */
+h1 {
+    color: #00ff66;
+    font-size: 2.4rem;
+    margin-bottom: 8px;
+    text-shadow: 0 0 10px rgba(0,255,102,.4);
+    white-space: nowrap;
+    transition: .3s;
+}
+
+h1:hover {
+    transform: scale(1.05);
+    text-shadow:
+        0 0 15px #00ff66,
+        0 0 30px #00ff66;
+}
+
+.description {
+    margin-bottom: 35px;
+    color: #e0e0e0;
+    font-style: italic;
+    transition: .3s;
+}
+
+.description:hover {
+    transform: scale(1.05);
+    color: white;
+}
+
+/* Socials */
+.social-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.social-container a {
+    transition: .3s;
+}
+
+.social-container a:hover {
+    transform: scale(1.25);
+    filter:
+        drop-shadow(0 0 10px #00ff66)
+        drop-shadow(0 0 20px #00ff66);
+}
+
+.social-container img {
+    width: 42px;
+    height: 42px;
+    display: block;
+    filter: drop-shadow(0 0 6px rgba(0,255,102,.3));
+}
+
+/* Music Player */
+.music-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+
+    background: rgba(0,0,0,.75);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 14px;
+
+    padding: 8px;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 0 20px rgba(0,0,0,.5),
+        0 0 10px rgba(255,255,255,.08);
+}
+
+.music-player audio {
+    width: 240px;
+    height: 38px;
+    filter:
+        invert(1)
+        contrast(1.15)
+        brightness(1.05);
+}
+
+/* Sparkles */
+.sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00ff66;
+    box-shadow:
+        0 0 8px #00ff66,
+        0 0 15px #00ff66;
+    pointer-events: none;
+    z-index: 99999;
+    animation: fadeOut .6s linear forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(.2) translateY(10px);
+    }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Music Player -->
+
+<div class="music-player">
+    <audio id="bg-music" controls loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<!-- Video -->
+
+<video class="video-background" autoplay loop muted playsinline preload="auto">
+    <source src="arcane.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<div class="profile-card">
+
+<div class="avatar-container">
+    <img class="profile-pic" src="profile.jpg" alt="Profile Picture">
+    <img class="profile-effect" src="effect.gif" alt="Profile Effect">
+</div>
+
+<h1>Nature Dash</h1>
+
+<p class="description">
+    Until you start thinking for yourself,
+    <br>you'll keep dancing to the words of this society.
+</p>
+
+<div class="social-container">
+
+    <a href="https://www.instagram.com/_captain_void_/" target="_blank">
+        <img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="Instagram">
+    </a>
+
+    <a href="https://discord.gg/nkTCa8buSg" target="_blank">
+        <img src="https://cdn.simpleicons.org/discord/FFFFFF" alt="Discord">
+    </a>
+
+    <a href="https://github.com/nature-dash" target="_blank">
+        <img src="https://cdn.simpleicons.org/github/FFFFFF" alt="GitHub">
+    </a>
+
+</div>
+
+</div>
+
+<script>
+window.addEventListener('click', () => {
+    const audio = document.getElementById('bg-music');
+
+    audio.currentTime = 0;
+
+    audio.play().catch(err => {
+        console.log('Playback blocked:', err);
+    });
+}, { once: true });
+
+document.addEventListener('mousemove', function(e) {
+
+    const sparkle = document.createElement('div');
+    sparkle.classList.add('sparkle');
+
+    sparkle.style.left = (e.pageX - 3) + 'px';
+    sparkle.style.top = (e.pageY - 3) + 'px';
+
+    document.body.appendChild(sparkle);
+
+    setTimeout(() => {
+        sparkle.remove();
+    }, 600);
+
+});
+</script>
+
+</body>
+</html>
